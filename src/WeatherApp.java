@@ -1,5 +1,8 @@
 //Backend logic to connect with the API
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -53,9 +56,12 @@ public class WeatherApp {
             //retrieve hourly data
             JSONObject hourly = (JSONObject) resuJsonObject.get("hourly");
 
-            //get hourly index data
+            //get hourly index data of today and tomorrow
             JSONArray time = (JSONArray) hourly.get("time");
-            int index = findIndexCurrentTime(time);
+            int index = findIndexCurrentTime(time, false);
+            int twIndex = findIndexCurrentTime(time, true);
+
+            //get today weather information
 
             // get temperature
             JSONArray temperatureData = (JSONArray) hourly.get("temperature_2m");
@@ -65,7 +71,6 @@ public class WeatherApp {
             JSONArray weatherCode = (JSONArray) hourly.get("weather_code");
             //Convert the weather code to something more readable
             String weatherCondition = convertCode((long) weatherCode.get(index));
-            System.out.println(weatherCondition);
 
             //get Humidity
             JSONArray humidityData = (JSONArray) hourly.get("relativehumidity_2m");
@@ -75,12 +80,39 @@ public class WeatherApp {
             JSONArray windData = (JSONArray) hourly.get("windspeed_10m");
             double windSpeed = (double) windData.get(index);
 
-            //build the weather json data object that is going to be access in the GUI
+            //get tomorrow weather information
+
+            // get tomorrow temperature
+            JSONArray tmTemperatureData = (JSONArray) hourly.get("temperature_2m");
+            double tmTemperature = (double) tmTemperatureData.get(twIndex);
+
+            //get tomorrow weather code
+            JSONArray tmWeatherCode = (JSONArray) hourly.get("weather_code");
+            //Convert the weather code to something more readable
+            String tmWeatherCondition = convertCode((long) tmWeatherCode.get(twIndex));
+
+            //get tomorrow Humidity
+            JSONArray tmHumidityData = (JSONArray) hourly.get("relativehumidity_2m");
+            long tmHumidity = (long) tmHumidityData.get(twIndex);
+
+            //get tomorrow wind speed
+            JSONArray tmWindData = (JSONArray) hourly.get("windspeed_10m");
+            double tmWindSpeed = (double) tmWindData.get(twIndex);
+
+
+            //build the weather json data object that is going to be access in the GUI 
+            //first with today weather
             JSONObject weatherData = new JSONObject();
             weatherData.put("temperature", temperature);
             weatherData.put("weather_condition", weatherCondition);
             weatherData.put("humidity", humidity);
             weatherData.put("wind_speed", windSpeed);
+
+            //next with tomorrow weather
+            weatherData.put("tmtemperature", tmTemperature);
+            weatherData.put("tmweather_condition", tmWeatherCondition);
+            weatherData.put("tmhumidity", tmHumidity);
+            weatherData.put("tmwind_speed", tmWindSpeed);
 
             return weatherData;
 
@@ -91,6 +123,32 @@ public class WeatherApp {
         return null;
     }
     
+    //get user city
+    public static String getUserCurrentCity(){
+        try {
+            URL url = new URL("http://ip-api.com/json/");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            InputStream inputStream = conn.getInputStream();
+            Scanner scanner = new Scanner(inputStream);
+            scanner.useDelimiter("\\A"); // Read entire stream as one token
+            String response = scanner.hasNext() ? scanner.next() : "";
+            scanner.close();
+
+            JSONParser parser = new JSONParser();
+            JSONObject json = (JSONObject) parser.parse(String.valueOf(response));
+            return json.get("city").toString();
+
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            return "Unknown City";
+
+        }
+    }
+
     //retrieve coordinates for a given location
     public static JSONArray getLocationData(String locationName){
         locationName = locationName.replace(" ", "+");
@@ -157,8 +215,8 @@ public class WeatherApp {
         return null;
     }
 
-    private static int findIndexCurrentTime(JSONArray timeList){
-        String currentTime = getCurrentTime();
+    private static int findIndexCurrentTime(JSONArray timeList, boolean tomorrow){
+        String currentTime = getCurrentTime(tomorrow);
 
         for (int i = 0; i < timeList.size(); i++) {
             String time = (String) timeList.get(i);
@@ -169,15 +227,21 @@ public class WeatherApp {
         return 0;
     }
 
-    public static String getCurrentTime(){
+    public static String getCurrentTime(boolean tomorrow){
         //get current time
-        LocalDateTime currentDateTime = LocalDateTime.now();
-
-        //Format the date to be alike the API date
+        LocalDateTime DateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH':00'");
-        String formattedDateTime = currentDateTime.format(formatter);
+        String formattedDateTime;
+        if (tomorrow) {
+            LocalDateTime tomorrowDate = DateTime.plusDays(1);
+            formattedDateTime = tomorrowDate.format(formatter);
+        } else {
+            //Format the date to be alike the API date
+            formattedDateTime = DateTime.format(formatter);
+        }
 
         return formattedDateTime;
+        
     }
 
     private static String convertCode(long weatherCode){
