@@ -65,7 +65,7 @@ public class WeatherAppGui extends JFrame{
         add(searchField);
 
         JLabel cityName = new JLabel(userActualCity.substring(0,1).toUpperCase() + userActualCity.substring(1));
-        cityName.setBounds(360,120,200, 30);
+        cityName.setBounds(360,100,200, 30);
         cityName.setFont(new Font("Dialog", Font.BOLD, 20));
         cityName.setHorizontalAlignment(SwingConstants.CENTER);
         add(cityName);
