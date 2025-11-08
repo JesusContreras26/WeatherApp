@@ -1,8 +1,6 @@
 //Backend logic to connect with the API
 
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -15,6 +13,7 @@ import org.json.simple.parser.JSONParser;
 
 public class WeatherApp {
     //fetch weather data for a location
+    @SuppressWarnings("unchecked")
     public static JSONObject getWeatherData(String locationName){
         JSONArray locationData = getLocationData(locationName);
 
