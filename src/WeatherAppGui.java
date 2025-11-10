@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -51,6 +52,13 @@ public class WeatherAppGui extends JFrame{
         String userActualCity = WeatherApp.getUserCurrentCity().toLowerCase();
         //Get weather information with the user city
         JSONObject currentCityWeatherData = WeatherApp.getWeatherData(userActualCity);
+        //Some cities recommendation
+        ArrayList<String> citiesRecom = new ArrayList<>();
+        citiesRecom.add("Las Vegas");
+        citiesRecom.add("Bufalo");
+        citiesRecom.add("Tokyo");
+        citiesRecom.add("New York");
+        citiesRecom.add("Paris");
 
         // search field
         JLabel cityLabel = new JLabel("Introduce a City");
@@ -65,6 +73,22 @@ public class WeatherAppGui extends JFrame{
         //change the font size and style
         searchField.setFont(new Font("Dialog", Font.PLAIN, 24) ); 
         add(searchField);
+
+        JLabel cityRecommenLabel = new JLabel();
+
+        for (int i = 0; i < citiesRecom.size(); i++) {
+            if (i == 0) {
+                cityRecommenLabel.setText("Some recommendations: " + citiesRecom.get(i) + ", ");
+            }else if(i == citiesRecom.size()){
+                cityRecommenLabel.setText(cityRecommenLabel.getText() + ", " + citiesRecom.get(i));
+            }else {
+                cityRecommenLabel.setText(cityRecommenLabel.getText() + citiesRecom.get(i) + ", ");
+            }    
+        }
+
+        cityRecommenLabel.setBounds(20,60,600,40);
+        cityRecommenLabel.setFont(new Font("Dialog", Font.BOLD, 15));
+        add(cityRecommenLabel);
 
         JLabel cityName = new JLabel(userActualCity.substring(0,1).toUpperCase() + userActualCity.substring(1));
         cityName.setBounds(360,100,200, 30);
