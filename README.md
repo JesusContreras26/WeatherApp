@@ -1,32 +1,31 @@
 # Overview
 
-{Important! Do not say in this section that this is college assignment. Talk about what you are trying to accomplish as a software engineer to further your learning.}
+As a software engineer, I want to learn as many things as I can, so I'm learning a new programming language called Java. It's a language with rich features, and I'm watching videos, reading documentation, and asking for help from people I know to further my understanding, aiming to become a more capable and creative software engineer.
 
-{Provide a description of the software that you wrote to demonstrate the Java language.}
+I built a weather app that shows the weather for today and tomorrow using an API called Open-Meteo. For my app, I also wanted to get the user's city to display their weather when the app launches, so I used another API called ip-api to get the user's city from their IP. My app displays the weather conditions, windspeed, humidity, temperature, and an image depending on the weather. It also allows users to input a city and view the weather for any city worldwide.
 
-{Describe your purpose for writing this software.}
+I wrote this program and consider it a great first project because it uses APIs, GUI, functions, methods, and objects. It introduced me to many aspects of this great programming language and made me think about and compare it to other languages.
 
-{Provide a link to your YouTube demonstration. It should be a 4-5 minute demo of the software running and a walkthrough of the code. Focus should be on sharing what you learned about the language syntax.}
+I made two videos: one shorter video that shows the program and a walkthrough of the code, focusing on what I learned about the syntax, and one longer video explaining everything in more detail.
 
-[Software Demo Video](http://youtube.link.goes.here)
+
+[Shorter Video 6min](https://www.youtube.com/watch?v=lid_Mbk4t-c)
+[Longer Video 21min](https://www.youtube.com/watch?v=iBP86Wwye5Y)
 
 # Development Environment
 
-{Describe the tools that you used to develop the software}
+I have used visual studio code as code editor
 
-{Describe the programming language that you used and any libraries.}
+I have used Java, and libraries as Swing, awt, imageio, time, io, util
 
 # Useful Websites
 
-{Make a list of websites that you found helpful in this project}
-
-- [Web Site Name](http://url.link.goes.here)
-- [Web Site Name](http://url.link.goes.here)
+- [Medium](https://medium.com/@archimedes.fagundes/5-ways-to-call-an-api-in-java-b3de65fb2022)
+- [geeksforgeeks](https://www.geeksforgeeks.org/java/introduction-to-java-swing/)
+- [guru99](https://www.guru99.com/java-swing-gui.html)
 
 # Future Work
 
-{Make a list of things that you need to fix, improve, and add in the future.}
-
-- Item 1
-- Item 2
-- Item 3
+- I need to handle some errors that can be showed when user introduce no valid data
+- I can make an object of type weather and create the variables I need display the weather information, so I can call that object twice and store it in one variable called todayWeather and other called tomorrowWeather, to no repeat code that is similar
+- Improve the GUI
