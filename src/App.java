@@ -7,7 +7,6 @@ public class App {
             public void run(){
                 //display weather app GUI
                 new WeatherAppGui().setVisible(true);
-                //System.out.println(WeatherApp.getLocationData("Tokyo"));
             }
         });
     }

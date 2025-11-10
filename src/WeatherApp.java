@@ -122,7 +122,7 @@ public class WeatherApp {
         return null;
     }
     
-    //get user city
+    //get user city through thei ip using ip-api
     public static String getUserCurrentCity(){
         try {
             URL url = new URL("http://ip-api.com/json/");
@@ -243,6 +243,8 @@ public class WeatherApp {
         
     }
 
+
+    //This function is to make the code in a more readeable name for users
     private static String convertCode(long weatherCode){
         String weatherCondition = "";
         if (weatherCode == 0L) {
@@ -253,8 +255,9 @@ public class WeatherApp {
             weatherCondition = "Rain";
         }else if(weatherCode >= 71L && weatherCode <= 77L){
             weatherCondition = "Snow";
+        } else if(weatherCode >= 45 && weatherCode <=48){
+            weatherCondition = "Foggy";
         }
-
         return weatherCondition;
     }
 }

@@ -47,7 +47,9 @@ public class WeatherAppGui extends JFrame{
     }
 
     private void addGuiComponents(){
+        //Get user city through their IP using the function getUserCurrentCity from the backend part
         String userActualCity = WeatherApp.getUserCurrentCity().toLowerCase();
+        //Get weather information with the user city
         JSONObject currentCityWeatherData = WeatherApp.getWeatherData(userActualCity);
 
         // search field
@@ -278,6 +280,9 @@ public class WeatherAppGui extends JFrame{
                         break;
                     case "Snow":
                         imgPath="src\\assets\\snow.png";
+                        break;
+                    case "Foggy":
+                        imgPath="src\\assets\\foggy.png";
                         break;
                 }
         return imgPath;
